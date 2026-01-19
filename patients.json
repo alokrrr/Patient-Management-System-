@@ -1,0 +1,9 @@
+{
+  "patients": [
+    { "id": "P001", "name": "John", "age": 34, "weight": 78 },
+    { "id": "P002", "name": "Sarah", "age": 28, "weight": 62 },
+    { "id": "P003", "name": "Michael", "age": 45, "weight": 85 },
+    { "id": "P004", "name": "Emily", "age": 52, "weight": 70 },
+    { "id": "P005", "name": "David", "age": 39, "weight": 90 }
+  ]
+}
