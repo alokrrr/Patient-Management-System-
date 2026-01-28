@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Path ,HTTPException
+from fastapi import FastAPI, Path ,HTTPException, Query
 import json
 
 
@@ -29,3 +29,22 @@ def view_patient(patient_id: str = Path(..., description = "The ID of the patien
     if patient_id in data:
         return data[patient_id]
     raise HTTPException(status_code=404, detail="Patient not found")
+
+@app.get('/sort')
+def sort_patients(sort_by: str = Query(..., description="sort on the basic of the height,age or bmi"), 
+  order: str = Query("asc", description="Order of sorting: asc or desc")):
+    
+    data = load_data()
+    valid_sort_keys = {'height', 'age', 'bmi'}
+
+    if sort_by not in valid_sort_keys:
+        raise HTTPException(status_code=400, detail=f"Invalid sort_by value. Must be one of {valid_sort_keys}")
+
+    reverse = order == "desc"
+
+    try:
+        sorted_data = dict(sorted(data.items(), key=lambda item: item[1][sort_by], reverse=reverse))
+    except KeyError:
+        raise HTTPException(status_code=400, detail=f"Sorting key '{sort_by}' not found in patient records.")
+
+    return sorted_data
